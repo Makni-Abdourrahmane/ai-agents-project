@@ -74,7 +74,13 @@ def main() -> int:
     #   Then answer, in DECISIONS.md: your system will call two different
     #   models. What does this measurement tell you about switching between
     #   them inside one request, and what would you do instead?
+    subprocess.run(["ollama","stop", SMALL.name])
+    _, cold_secs = timed(client, SHORT, SMALL.name)
+    _, warm_secs = timed(client,SHORT, SMALL.name)
 
+    print(f"\ncold start: {cold_secs:.2f}s")
+    print(f"warm call: {warm_secs:.2f}s")
+    print(f"ratio: {cold_secs / warm_secs:.1f}x")
     # TODO 8. Estimate what a real evaluation run would cost hosted.
     #
     #   In week 10 you build a golden set and run it. Assume 200 cases, each
@@ -90,6 +96,17 @@ def main() -> int:
     #
     #   Label them as estimates. They are not measurements and the price
     #   list is dated {PRICE_DATE}.
+    n_cases = 200
+    input_tokens = rows[1]["prompt_tokens"] *n_cases
+    output_tokens = rows[1]["completion_tokens"] * n_cases
+    nights = 14*7
+
+    for tier in ("small","large"):
+        one_run = estimate(input_tokens, output_tokens, tier = tier)
+        semester = one_run.total *nights
+        print(f"{tier:<6} tier one run : {one_run.total:7.2f} EUR"
+              f"nightly for the semester: {semester:>9.2f} EUR")
+
 
     write_json("artifacts/week01_cost.json",
                {"rows": rows, "price_list_date": PRICE_DATE})
