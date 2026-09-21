@@ -54,7 +54,7 @@ def count_distinct(texts: list[str]) -> int:
     noticing that you cannot is the point. Week 10 spends the whole session
     on it.
     """
-    raise NotImplementedError("TODO 4: count the distinct strings")
+    return len(set(texts))
 
 
 def summarize(cell_name: str, texts: list[str], latencies: list[float]) -> dict:
@@ -132,10 +132,10 @@ def main() -> int:
     #
     #   Three questions to answer in DECISIONS.md:
     #     a. At temperature 0, how many distinct answers did you get? Does
-    #        your machine agree with the recording?
+    #        your machine agree with the recording? 1 distinct answer
     #     b. At temperature 1.0, one of the two cells still returns a single
     #        distinct answer. Which one, and why that one? The answer is not
-    #        "the temperature did not work".
+    #        "the temperature did not work". closed short gave me the same answer
     #     c. A unit test asserting exact string equality would pass on some
     #        of these cells and fail on others. Name which, and say what
     #        that tells you about testing this system.
