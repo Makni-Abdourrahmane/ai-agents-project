@@ -95,7 +95,7 @@ def main() -> int:
     rec.finish(output=answer, outcome = "ok")
     if reply is not None:
         est = estimate(reply.usage.prompt_tokens,
-                       reply.usage.completion_tokens, tier="small")
+                       reply.usage.completion_tokens,   tier="small")
         print(est.summary())
 
     return 0
